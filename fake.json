@@ -1,0 +1,16 @@
+{
+  "source": { "name": "my-analyzer" },
+  "diagnostics": [
+    {
+      "message": "Avoid using global variables",
+      "location": {
+        "path": "src/main.py",
+        "range": {
+          "start": { "line": 10, "column": 5 },
+          "end": { "line": 10, "column": 15 }
+        }
+      },
+      "severity": "WARNING"
+    }
+  ]
+}
