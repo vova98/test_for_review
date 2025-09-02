@@ -21,14 +21,18 @@ jobs:
       - uses: actions/checkout@v3
       - run: pip install black==23.1.0
 
-      - uses: reviewdog/action-black@644053a260402bc4278a865906107bd8aef7fae8
+      - name: Install reviewdog
+        run: |
+          curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh \
+            | sh -s -- -b /usr/local/bin
+            
 
       - name: Run analyzer with reviewdog
         run: |
           cat fake.json \
             | reviewdog -f=rdjson \
                 -name="my-analyzer" \
-                -reporter=github-pr-review \
+                -reporter=github-pr-check \
                 -level=warning
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
