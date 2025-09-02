@@ -1,19 +1,28 @@
 name: reviewdog
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+on: [pull_request]
 
 jobs:
-  lint:
+  linter_name:
+    name: runner / black formatter
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install reviewdog
-        run: |
-          curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh \
-            | sh -s -- -b /usr/local/bin
-            
+      - run: pip install black==23.1.0
+      - uses: reviewdog/action-black@644053a260402bc4278a865906107bd8aef7fae8
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-check
+          level: warning
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pip install black==23.1.0
+
+      - uses: reviewdog/action-black@644053a260402bc4278a865906107bd8aef7fae8
+
       - name: Run analyzer with reviewdog
         run: |
           cat fake.json \
