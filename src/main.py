@@ -1,14 +1,18 @@
 import argparse
 from pathlib import Path
 
-summ = 0
-
 def main(cmd: list[str] | None = None):
     args = parse_args(cmd)
+    summ = 0
     with open(args.data_path) as f:
         for line in f.readlines():
             summ += int(line.strip('\n'))
     print(summ)
+    prod = 1
+    with open(args.data_path) as f:
+        for line in f.readlines():
+            prod *= int(line.strip('\n'))
+    print(prod)
 
 
 def parse_args(cmd: list[str] | None = None):
