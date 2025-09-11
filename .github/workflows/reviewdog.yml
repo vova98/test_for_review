@@ -29,7 +29,9 @@ jobs:
 
       - name: Run analyzer with reviewdog
         run: |
-          http://localhost:8382/review?source=github&url=https://github.com/${{env.GITHUB_REPOSITORY}}.git&change_id=${{GITHUB_REF}}&message_format=reviewdog \
+          echo "Repo: ${{env.GITHUB_REPOSITORY}}"
+          echo "REF: ${{env.GITHUB_REF}}"
+          http://localhost:8382/review?source=github&url=https://github.com/${{env.GITHUB_REPOSITORY}}.git&change_id=${{env.GITHUB_REF}}&message_format=reviewdog \
             | reviewdog -f=rdjson \
                 -name="my-analyzer" \
                 -reporter=github-pr-review \
