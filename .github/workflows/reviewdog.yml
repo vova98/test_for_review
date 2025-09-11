@@ -26,13 +26,11 @@ jobs:
         run: |
           curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh \
             | sh -s -- -b /usr/local/bin
-            
+
 
       - name: Run analyzer with reviewdog
         run: |
-          echo "Repo: ${{env.GITHUB_REPOSITORY}}"
-          echo "REF: ${{env.GITHUB_REF}}"
-          cat fake.json \
+          http://localhost:8382/review?source=github&url=https://github.com/${{ github.repository }}.git&change_id=${{ github.event.pull_request.number }}&message_format=reviewdog \
             | reviewdog -f=rdjson \
                 -name="my-analyzer" \
                 -reporter=github-pr-review \
