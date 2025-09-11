@@ -17,9 +17,10 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
-      - run: pip install black==23.1.0
 
       - name: Install reviewdog
         run: |
@@ -31,7 +32,7 @@ jobs:
         run: |
           echo "Repo: ${{env.GITHUB_REPOSITORY}}"
           echo "REF: ${{env.GITHUB_REF}}"
-          http://localhost:8382/review?source=github&url=https://github.com/${{env.GITHUB_REPOSITORY}}.git&change_id=${{env.GITHUB_REF}}&message_format=reviewdog \
+          cat fake.json \
             | reviewdog -f=rdjson \
                 -name="my-analyzer" \
                 -reporter=github-pr-review \
