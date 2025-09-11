@@ -4,7 +4,7 @@ on: [pull_request]
 jobs:
   linter_name:
     name: runner / black formatter
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
 
@@ -12,7 +12,7 @@ jobs:
       - uses: reviewdog/action-black@644053a260402bc4278a865906107bd8aef7fae8
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-check
+          reporter: github-pr-review
           level: warning
 
   lint:
@@ -29,10 +29,10 @@ jobs:
 
       - name: Run analyzer with reviewdog
         run: |
-          cat fake.json \
+          http://localhost:8382/review?source=github&url=https://github.com/${{env.GITHUB_REPOSITORY}}.git&change_id=${{GITHUB_REF}}&message_format=reviewdog \
             | reviewdog -f=rdjson \
                 -name="my-analyzer" \
-                -reporter=github-pr-check \
+                -reporter=github-pr-review \
                 -level=warning
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
